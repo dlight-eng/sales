@@ -377,7 +377,8 @@ footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--border);font-si
 <footer>DLight · Дашборд ефективності менеджерів · 01.01–06.05.2026</footer>
 </div>
 
-<script>
+<script>window.addEventListener('load', function(){
+
 // ═══════════════════════════════════
 // DATA
 // ═══════════════════════════════════
@@ -826,7 +827,7 @@ let tripsFilter = {mgrs: new Set(), status:'all'};
 // Build manager chips for trips
 const tripsMgrs = [...new Set(TRIPS.map(t=>t.m))].sort();
 document.getElementById('tripsMgrChips').innerHTML =
-  '<div class="chip on-mgr" data-tm="__all" onclick="toggleTripMgr('__all')">Всі</div>' +
+  `<div class="chip on-mgr" data-tm="__all" onclick="toggleTripMgr('__all')">Всі</div>` +
   tripsMgrs.map(m=>`<div class="chip" data-tm="${m}" onclick="toggleTripMgr('${m}')">${m.split(' ')[0]}</div>`).join('');
 
 function toggleTripMgr(m){
@@ -937,6 +938,7 @@ window.switchTab = function(id){
   if(id==='trips'){ initTripsCharts(); renderTrips(); }
 };
 
-</script>
+
+});</script>
 </body>
 </html>
