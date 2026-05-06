@@ -377,8 +377,7 @@ footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--border);font-si
 <footer>DLight · Дашборд ефективності менеджерів · 01.01–06.05.2026</footer>
 </div>
 
-<script>window.addEventListener('load', function(){
-
+<script>
 // ═══════════════════════════════════
 // DATA
 // ═══════════════════════════════════
@@ -582,6 +581,10 @@ function switchTab(id){
 // ═══════════════════════════════════
 const GC={color:'#dde0e8'}, TC={color:'#5a6070',font:{family:'JetBrains Mono',size:10}};
 const TT={backgroundColor:'#ffffff',borderColor:'#dde0e8',borderWidth:1,titleColor:'#d4930a',bodyColor:'#1a1d26',boxShadow:'0 4px 12px rgba(0,0,0,.12)'};
+
+
+window.addEventListener('load', function(){
+
 const monthlyChart=new Chart(document.getElementById('monthlyChart'),{type:'bar',data:{labels:Object.values(MONTH_LABELS),datasets:[]},options:{responsive:true,plugins:{legend:{labels:{...TC,boxWidth:10,padding:8}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toFixed(2)} млн`}}},scales:{x:{stacked:true,ticks:TC,grid:GC},y:{stacked:true,ticks:{...TC,callback:v=>v+' млн'},grid:GC}}}});
 const collChart=new Chart(document.getElementById('collChart'),{type:'bar',data:{labels:[],datasets:[{data:[],backgroundColor:[],borderColor:[],borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` Збір: ${c.raw.toFixed(1)}%`}}},scales:{x:{max:110,ticks:{...TC,callback:v=>v+'%'},grid:GC},y:{ticks:TC,grid:GC}}}});
 const svpChart=new Chart(document.getElementById('svpChart'),{type:'bar',data:{labels:[],datasets:[{label:'Відвантажено',data:[],backgroundColor:'#f0b42988',borderColor:'#f0b429',borderWidth:1,borderRadius:3},{label:'Оплачено',data:[],backgroundColor:'#22c55e66',borderColor:'#22c55e',borderWidth:1,borderRadius:3}]},options:{responsive:true,plugins:{legend:{labels:{...TC,boxWidth:10}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toFixed(2)} млн`}}},scales:{x:{ticks:TC,grid:GC},y:{ticks:{...TC,callback:v=>v+' млн'},grid:GC}}}});
@@ -938,6 +941,17 @@ window.switchTab = function(id){
   if(id==='trips'){ initTripsCharts(); renderTrips(); }
 };
 
+
+// Expose to global scope for onclick handlers
+window.selectMgr = selectMgr;
+window.applyPreset = applyPreset;
+window.toggleTripMgr = toggleTripMgr;
+window.setTripStatus = setTripStatus;
+window.toggleMetric = toggleMetric;
+window.renderTrips = renderTrips;
+window.showDetail = showDetail;
+window.renderTable = renderTable;
+window.switchTab = switchTab;
 
 });</script>
 </body>
