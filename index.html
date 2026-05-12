@@ -184,85 +184,6 @@ tbody tr.sel{background:rgba(212,147,10,.08);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 .card,.kpi,.rating-builder,.rating-result{animation:fadeUp .3s ease both;}
 
-/* ─── DROPDOWNS ─── */
-.dd-wrap{position:relative;user-select:none;}
-.dd-trigger{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  padding:8px 12px;cursor:pointer;transition:border-color .15s;min-height:38px;
-  font-family:var(--mono);font-size:12px;color:var(--text);
-}
-.dd-trigger:hover{border-color:var(--accent);}
-.dd-wrap.open .dd-trigger{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(13,148,136,.15);}
-.dd-trigger-text{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);}
-.dd-trigger-text.has-selection{color:var(--text);font-weight:500;}
-.dd-arrow{font-size:11px;color:var(--text3);transition:transform .2s;flex-shrink:0;}
-.dd-wrap.open .dd-arrow{transform:rotate(180deg);}
-.dd-menu{
-  position:absolute;top:calc(100% + 4px);left:0;z-index:999;
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-  min-width:100%;max-height:320px;overflow-y:auto;
-  display:none;flex-direction:column;
-}
-.dd-wrap.open .dd-menu{display:flex;}
-.dd-menu::-webkit-scrollbar{width:3px;}
-.dd-menu::-webkit-scrollbar-thumb{background:#c0c5d0;border-radius:2px;}
-.dd-search{
-  padding:8px 10px;border-bottom:1px solid var(--border);
-  font-family:var(--mono);font-size:11px;color:var(--text);background:transparent;
-  border-top:none;border-left:none;border-right:none;outline:none;
-}
-.dd-search::placeholder{color:var(--text3);}
-.dd-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 12px;cursor:pointer;transition:background .1s;
-  font-family:var(--mono);font-size:12px;color:var(--text);
-  border-bottom:1px solid rgba(180,188,210,.3);
-}
-.dd-item:last-child{border-bottom:none;}
-.dd-item:hover{background:var(--surface2);}
-.dd-item.selected{background:rgba(13,148,136,.07);}
-.dd-cb{
-  width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:all .15s;background:var(--surface);
-}
-.dd-item.selected .dd-cb{background:var(--accent2);border-color:var(--accent2);}
-.dd-cb-check{color:#fff;font-size:10px;display:none;}
-.dd-item.selected .dd-cb-check{display:block;}
-.dd-item-label{flex:1;}
-.dd-item-count{font-size:10px;color:var(--text3);background:var(--surface2);
-  border-radius:4px;padding:1px 6px;}
-.dd-divider{height:1px;background:var(--border);margin:4px 0;}
-.dd-select-all{
-  padding:8px 12px;font-size:11px;color:var(--accent2);cursor:pointer;
-  font-family:var(--mono);border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;
-}
-.dd-select-all:hover{background:var(--surface2);}
-.dd-badge{
-  display:inline-block;background:var(--accent2);color:#fff;border-radius:10px;
-  font-size:10px;padding:1px 7px;font-weight:600;margin-left:4px;
-}
-/* Active filter summary bar */
-.active-filters{
-  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
-  padding:8px 20px;background:rgba(13,148,136,.05);
-  border-bottom:1px solid var(--border);min-height:0;
-}
-.active-filters.empty{display:none;}
-.af-tag{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(13,148,136,.12);border:1px solid rgba(13,148,136,.3);
-  border-radius:20px;padding:3px 10px 3px 12px;
-  font-size:11px;color:var(--accent2);font-family:var(--mono);
-}
-.af-tag .af-remove{cursor:pointer;font-size:13px;color:var(--text3);line-height:1;}
-.af-tag .af-remove:hover{color:var(--danger);}
-.af-clear{font-size:11px;color:var(--text3);cursor:pointer;margin-left:auto;}
-.af-clear:hover{color:var(--danger);}
-
 /* ─── MAP ─── */
 #visit-map{width:100%;height:560px;border-radius:var(--radius);border:1px solid var(--border);z-index:1;}
 .map-filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center;}
@@ -295,35 +216,17 @@ footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--border);font-si
 
 <!-- FILTER (global, above tabs) -->
 <div class="filter-panel" style="margin-top:16px;">
-  <div class="filter-group" style="min-width:220px;">
+  <div class="filter-group" style="flex:3;min-width:280px;">
     <div class="filter-label">👤 Менеджер</div>
-    <div class="dd-wrap" id="ddMgr">
-      <div class="dd-trigger" onclick="toggleDd('ddMgr')">
-        <span class="dd-trigger-text" id="ddMgrText">Всі менеджери</span>
-        <span class="dd-arrow">▾</span>
-      </div>
-      <div class="dd-menu" id="ddMgrMenu"></div>
-    </div>
+    <div class="filter-chips" id="mgrChips"></div>
   </div>
-  <div class="filter-group" style="min-width:180px;">
+  <div class="filter-group">
     <div class="filter-label">📅 Місяць</div>
-    <div class="dd-wrap" id="ddMonth">
-      <div class="dd-trigger" onclick="toggleDd('ddMonth')">
-        <span class="dd-trigger-text" id="ddMonthText">Всі місяці</span>
-        <span class="dd-arrow">▾</span>
-      </div>
-      <div class="dd-menu" id="ddMonthMenu"></div>
-    </div>
+    <div class="filter-chips" id="monthChips"></div>
   </div>
-  <div class="filter-group" style="min-width:180px;">
+  <div class="filter-group">
     <div class="filter-label">💰 Статус оплати</div>
-    <div class="dd-wrap" id="ddStatus">
-      <div class="dd-trigger" onclick="toggleDd('ddStatus')">
-        <span class="dd-trigger-text" id="ddStatusText">Всі</span>
-        <span class="dd-arrow">▾</span>
-      </div>
-      <div class="dd-menu" id="ddStatusMenu"></div>
-    </div>
+    <div class="filter-chips" id="statusChips"></div>
   </div>
   <div class="search-wrap">
     <div class="filter-label">🔍 Пошук</div>
@@ -331,14 +234,8 @@ footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--border);font-si
   </div>
   <div class="filter-actions">
     <div class="filter-status">Замовлень: <span class="cnt" id="filterCount">—</span></div>
+    <button class="reset-btn" onclick="resetFilters()">✕ Скинути</button>
   </div>
-</div>
-
-<!-- ACTIVE FILTERS BAR -->
-<div class="active-filters empty" id="activeFiltersBar">
-  <span style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-right:4px">Активні фільтри:</span>
-  <div id="activeFilterTags" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
-  <span class="af-clear" onclick="resetFilters()">✕ Скинути всі</span>
 </div>
 
 <!-- TABS -->
@@ -406,7 +303,115 @@ footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--border);font-si
 
     <!-- PRESETS -->
     <div class="presets">
-      <span style="font-size:10px;color:var(--text3);align-self:center;mar
+      <span style="font-size:10px;color:var(--text3);align-self:center;margin-right:4px;">Швидкі пресети:</span>
+      <button class="preset-btn" onclick="applyPreset('volume')">💰 Обсяг продажів</button>
+      <button class="preset-btn" onclick="applyPreset('collection')">✅ Дисципліна оплат</button>
+      <button class="preset-btn" onclick="applyPreset('activity')">📋 Активність</button>
+      <button class="preset-btn active" onclick="applyPreset('balanced')">⚖️ Збалансований</button>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-grid" id="metricsGrid"></div>
+
+    <!-- WEIGHT TOTAL -->
+    <div class="weight-total">
+      <div class="wt-label">Сума ваг:</div>
+      <div class="wt-bar-bg"><div class="wt-bar-fill" id="wtBarFill" style="width:100%"></div></div>
+      <div class="wt-val" id="wtVal">100%</div>
+    </div>
+  </div>
+
+  <!-- RESULT TABLE -->
+  <div class="rating-result">
+    <div class="rating-result-title"><span class="dot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></span>Підсумковий рейтинг менеджерів</div>
+    <div style="overflow-x:auto;">
+      <table class="rating-table">
+        <thead><tr id="ratingTableHead"></tr></thead>
+        <tbody id="ratingTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ TAB TRIPS ═══ -->
+<div class="tab-section" id="tab-trips">
+
+  <!-- Summary cards -->
+  <div class="kpi-strip" id="tripsKpi" style="margin-bottom:14px;"></div>
+
+  <!-- Filter + search row -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end;">
+    <div class="filter-group" style="flex:3;min-width:220px;">
+      <div class="filter-label">👤 Менеджер</div>
+      <div class="filter-chips" id="tripsMgrChips"></div>
+    </div>
+    <div class="filter-group" style="flex:2;min-width:180px;">
+      <div class="filter-label" style="color:var(--accent2)">🔍 Пошук (клієнт / місто)</div>
+      <input class="search-input" id="tripsSearch" type="text" placeholder="Назва клієнта або місто..." oninput="renderTrips()">
+    </div>
+    <div class="filter-group">
+      <div class="filter-label" style="color:var(--accent2)">📋 Статус</div>
+      <div class="filter-chips">
+        <div class="chip on-month" data-ts="all" onclick="setTripStatus('all')">Всі</div>
+        <div class="chip" data-ts="result" onclick="setTripStatus('result')">✓ З результатом</div>
+        <div class="chip" data-ts="noresult" onclick="setTripStatus('noresult')">— Без результату</div>
+      </div>
+    </div>
+    <div class="filter-status" style="align-self:flex-end">Показано: <span class="cnt" id="tripsCount">—</span> візитів</div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="grid2" style="margin-bottom:14px;">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Кількість візитів по менеджерах</div>
+      <canvas id="tripsBarChart" height="220"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--success);box-shadow:0 0 8px var(--success)"></span>Візити з результатом vs без</div>
+      <canvas id="tripsResultChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Trips table -->
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></span>Деталізація візитів</div>
+    <div class="scroll-area" style="max-height:500px;">
+      <table>
+        <thead><tr>
+          <th style="text-align:left">Менеджер</th>
+          <th style="text-align:left">Клієнт / Контрагент</th>
+          <th style="text-align:left">Місто</th>
+          <th>Дата</th>
+          <th style="text-align:left">Результат</th>
+        </tr></thead>
+        <tbody id="tripsTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB MAP ═══ -->
+<div class="tab-section" id="tab-map">
+  <div class="map-filter-bar">
+    <span style="font-size:10px;color:var(--text2);letter-spacing:1px;text-transform:uppercase">Менеджер:</span>
+    <div id="mapMgrChips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <span style="font-size:11px;color:var(--text2)">Розмір кола:</span>
+      <div class="chip" id="mapSizeVisits" onclick="setMapSize('visits')" style="font-size:10px;padding:4px 10px;">За кількістю</div>
+      <div class="chip on-mgr" id="mapSizeEqual" onclick="setMapSize('equal')" style="font-size:10px;padding:4px 10px;">Рівні</div>
+    </div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div id="visit-map"></div>
+  </div>
+  <div class="map-legend" id="mapLegend"></div>
+</div>
+
+<footer>DLight · Дашборд ефективності менеджерів · 01.01–06.05.2026</footer>
+</div>
+
+<script>
 // ═══════════════════════════════════
 // DATA
 // ═══════════════════════════════════
@@ -453,33 +458,33 @@ const COLORS = ['#f0b429','#2dd4bf','#fb923c','#a78bfa','#34d399','#f87171','#60
 const MONTH_LABELS={1:'Січень',2:'Лютий',3:'Березень',4:'Квітень',5:'Травень'};
 
 // Build filter chips
-// ── Dropdown init ──
-buildDropdown('ddMgr', ALL_MGRS.map(m=>({
-  key:m, label:m, sublabel:m.split(' ')[0]
-})), F.mgrs, ()=>{ updateDdLabel('ddMgr','ddMgrText', F.mgrs, 'Всі менеджери'); applyFilters(); }, true);
+document.getElementById('mgrChips').innerHTML=
+  `<div class="chip on-mgr" data-mgr="__all" onclick="toggleMgr('__all')">Всі</div>`+
+  ALL_MGRS.map(m=>`<div class="chip" data-mgr="${m}" onclick="toggleMgr('${m}')">${m.split(' ')[0]}</div>`).join('');
+document.getElementById('monthChips').innerHTML=
+  `<div class="chip on-month" data-m="0" onclick="toggleMonth(0)">Всі</div>`+
+  [1,2,3,4,5].map(m=>`<div class="chip" data-m="${m}" onclick="toggleMonth(${m})">${MONTH_LABELS[m]}</div>`).join('');
+document.getElementById('statusChips').innerHTML=
+  [{k:'all',l:'Всі'},{k:'paid',l:'✓ Сплачено'},{k:'partial',l:'◑ Частково'},{k:'unpaid',l:'✗ Не сплачено'}]
+  .map(s=>`<div class="chip ${s.k==='all'?'on-status-all':''}" data-s="${s.k}" onclick="toggleStatus('${s.k}')">${s.l}</div>`).join('');
 
-buildDropdown('ddMonth', [1,2,3,4,5].map(m=>({
-  key:m, label:MONTH_LABELS[m]
-})), F.months, ()=>{ updateDdLabel('ddMonth','ddMonthText', F.months, 'Всі місяці'); applyFilters(); }, false);
-
-buildDropdown('ddStatus', [
-  {key:'all', label:'Всі статуси', icon:''},
-  {key:'paid', label:'Сплачено', icon:'✓'},
-  {key:'partial', label:'Частково', icon:'◑'},
-  {key:'unpaid', label:'Не сплачено', icon:'✗'},
-], null, ()=>{ 
-  const sel = F.status;
-  const labels = {all:'Всі',paid:'✓ Сплачено',partial:'◑ Частково',unpaid:'✗ Не сплачено'};
-  document.getElementById('ddStatusText').textContent = labels[sel]||'Всі';
-  document.getElementById('ddStatusText').className = sel!=='all'?'dd-trigger-text has-selection':'dd-trigger-text';
-  applyFilters(); 
-}, false, true);
-
-
-
-
+function toggleMgr(m){
+  if(m==='__all'){F.mgrs.clear();}else{F.mgrs.has(m)?F.mgrs.delete(m):F.mgrs.add(m);}
+  document.querySelectorAll('[data-mgr]').forEach(el=>{const v=el.dataset.mgr;el.className='chip'+(v==='__all'?F.mgrs.size===0?' on-mgr':'':F.mgrs.has(v)?' on-mgr':'');});
+  applyFilters();
+}
+function toggleMonth(m){
+  if(m===0){F.months.clear();}else{F.months.has(m)?F.months.delete(m):F.months.add(m);}
+  document.querySelectorAll('[data-m]').forEach(el=>{const v=+el.dataset.m;el.className='chip'+(v===0?F.months.size===0?' on-month':'':F.months.has(v)?' on-month':'');});
+  applyFilters();
+}
+function toggleStatus(s){
+  F.status=s;
+  document.querySelectorAll('[data-s]').forEach(el=>{const v=el.dataset.s;el.className='chip'+(v===s?' on-status-'+s:'');});
+  applyFilters();
+}
 function onSearch(){F.q=document.getElementById('searchInput').value; applyFilters();}
-function resetFilters(){F.mgrs.clear();F.months.clear();F.status='all';F.q='';document.getElementById('searchInput').value='';syncDd();applyFilters();}
+function resetFilters(){F.mgrs.clear();F.months.clear();F.status='all';F.q='';document.getElementById('searchInput').value='';toggleMgr('__all');toggleMonth(0);toggleStatus('all');}
 
 function getStatus(r){if(r.unpaid<=0)return'paid';if(r.pd>0)return'partial';return'unpaid';}
 function getFiltered(){
@@ -776,116 +781,6 @@ function renderRatingTable(){
   }).join('')||`<tr><td colspan="${activeMetrics.length+3}" class="no-data">Немає даних</td></tr>`;
 }
 
-
-// ── Dropdown core ──
-function toggleDd(id){
-  const wrap=document.getElementById(id);
-  const isOpen=wrap.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.dd-wrap.open').forEach(w=>w.classList.remove('open'));
-  if(!isOpen) wrap.classList.add('open');
-}
-// Close dropdowns on outside click
-document.addEventListener('click', function(e){
-  if(!e.target.closest('.dd-wrap')) document.querySelectorAll('.dd-wrap.open').forEach(w=>w.classList.remove('open'));
-});
-
-function buildDropdown(wrapperId, items, selectedSet, onChange, withSearch, isRadio){
-  const menu = document.getElementById(wrapperId+'Menu');
-  let filterQ = '';
-
-  function render(){
-    menu.innerHTML='';
-    // Search input (for managers)
-    if(withSearch){
-      const si=document.createElement('input');
-      si.className='dd-search'; si.placeholder='Пошук...'; si.value=filterQ;
-      si.oninput=e=>{filterQ=e.target.value;render();};
-      si.onclick=e=>e.stopPropagation();
-      menu.appendChild(si);
-    }
-    // Select all (for multi)
-    if(!isRadio){
-      const sa=document.createElement('div'); sa.className='dd-select-all';
-      const allSel = selectedSet && selectedSet.size===0;
-      sa.innerHTML=`<span>${allSel?'Всі обрані':'Скинути вибір'}</span><span style="color:var(--text3)">${selectedSet?selectedSet.size:0} обрано</span>`;
-      sa.onclick=e=>{e.stopPropagation(); if(selectedSet) selectedSet.clear(); filterQ=''; render(); onChange();};
-      menu.appendChild(sa);
-    }
-    // Items
-    const filtered = withSearch && filterQ
-      ? items.filter(it=>it.label.toLowerCase().includes(filterQ.toLowerCase()))
-      : items;
-    filtered.forEach(item=>{
-      const div=document.createElement('div');
-      const isSel = isRadio ? F.status===item.key : selectedSet && selectedSet.size===0 ? false : selectedSet && selectedSet.has(item.key);
-      div.className='dd-item'+(isSel?' selected':'');
-      div.innerHTML=`<div class="dd-cb"><span class="dd-cb-check">✓</span></div>
-        <span class="dd-item-label">${item.icon?item.icon+' ':''}${item.label}</span>`;
-      div.onclick=e=>{
-        e.stopPropagation();
-        if(isRadio){
-          F.status=item.key;
-        } else {
-          if(selectedSet.has(item.key)) selectedSet.delete(item.key);
-          else selectedSet.add(item.key);
-        }
-        render(); onChange();
-      };
-      menu.appendChild(div);
-    });
-  }
-  render();
-}
-
-function updateDdLabel(wrapperId, textId, selectedSet, allLabel){
-  const el=document.getElementById(textId);
-  if(!selectedSet||selectedSet.size===0){
-    el.textContent=allLabel; el.className='dd-trigger-text';
-  } else if(selectedSet.size===1){
-    const val=[...selectedSet][0];
-    el.textContent=typeof val==='number'?MONTH_LABELS[val]:val.split(' ')[0];
-    el.className='dd-trigger-text has-selection';
-  } else {
-    el.textContent=allLabel.replace('Всі','')+' ('+selectedSet.size+')';
-    el.className='dd-trigger-text has-selection';
-  }
-}
-
-function updateActiveFilters(){
-  const bar=document.getElementById('activeFiltersBar');
-  const tags=document.getElementById('activeFilterTags');
-  const parts=[];
-  F.mgrs.forEach(m=>parts.push({label:m.split(' ')[0], remove:()=>{F.mgrs.delete(m);syncDd();applyFilters();}}));
-  F.months.forEach(m=>parts.push({label:MONTH_LABELS[m], remove:()=>{F.months.delete(m);syncDd();applyFilters();}}));
-  if(F.status!=='all'){
-    const labels={paid:'✓ Сплачено',partial:'◑ Частково',unpaid:'✗ Не сплачено'};
-    parts.push({label:labels[F.status], remove:()=>{F.status='all';syncDd();applyFilters();}});
-  }
-  if(F.q) parts.push({label:'«'+F.q+'»', remove:()=>{F.q='';document.getElementById('searchInput').value='';applyFilters();}});
-  bar.classList.toggle('empty', parts.length===0);
-  tags.innerHTML=parts.map((p,i)=>`<div class="af-tag">${p.label}<span class="af-remove" onclick="removeFilter(${i})">×</span></div>`).join('');
-  window._afParts=parts;
-}
-function removeFilter(i){ window._afParts[i].remove(); }
-
-function syncDd(){
-  updateDdLabel('ddMgr','ddMgrText',F.mgrs,'Всі менеджери');
-  updateDdLabel('ddMonth','ddMonthText',F.months,'Всі місяці');
-  const labels={all:'Всі',paid:'✓ Сплачено',partial:'◑ Частково',unpaid:'✗ Не сплачено'};
-  const el=document.getElementById('ddStatusText');
-  if(el){el.textContent=labels[F.status]||'Всі';el.className=F.status!=='all'?'dd-trigger-text has-selection':'dd-trigger-text';}
-  // Rebuild dropdown menus to reflect state
-  buildDropdown('ddMgr',ALL_MGRS.map(m=>({key:m,label:m,sublabel:m.split(' ')[0]})),F.mgrs,()=>{updateDdLabel('ddMgr','ddMgrText',F.mgrs,'Всі менеджери');applyFilters();},true);
-  buildDropdown('ddMonth',[1,2,3,4,5].map(m=>({key:m,label:MONTH_LABELS[m]})),F.months,()=>{updateDdLabel('ddMonth','ddMonthText',F.months,'Всі місяці');applyFilters();},false);
-  buildDropdown('ddStatus',[{key:'all',label:'Всі статуси'},{key:'paid',label:'Сплачено',icon:'✓'},{key:'partial',label:'Частково',icon:'◑'},{key:'unpaid',label:'Не сплачено',icon:'✗'}],null,()=>{const sel=F.status;const lls={all:'Всі',paid:'✓ Сплачено',partial:'◑ Частково',unpaid:'✗ Не сплачено'};document.getElementById('ddStatusText').textContent=lls[sel]||'Всі';document.getElementById('ddStatusText').className=sel!=='all'?'dd-trigger-text has-selection':'dd-trigger-text';applyFilters();},false,true);
-}
-
-// Old toggle fns mapped to new system
-function toggleMgr(m){ if(m==='__all'){F.mgrs.clear();}else{F.mgrs.has(m)?F.mgrs.delete(m):F.mgrs.add(m);} syncDd(); applyFilters(); }
-function toggleMonth(m){ if(m===0){F.months.clear();}else{F.months.has(m)?F.months.delete(m):F.months.add(m);} syncDd(); applyFilters(); }
-function toggleStatus(s){ F.status=s; syncDd(); applyFilters(); }
-
 function applyFilters(){
   const data=getFiltered();
   const stats=buildStats(data);
@@ -1102,115 +997,6 @@ function renderMapMarkers(){
 
     const r = mapSizeMode === 'visits'
       ? Math.max(8, Math.round(8 + (filteredTotal / maxVisits) * 28))
-      : 14;
-
-    let color, strokeColor;
-    if(activeMgrs.length === 1){
-      color = MGR_COLORS[activeMgrs[0]] || '#94a3b8';
-      strokeColor = color;
-    } else {
-      color = '#6366f1'; strokeColor = '#4f46e5';
-    }
-
-    const circle = L.circleMarker([city.lat, city.lng], {
-      radius: r, fillColor: color, fillOpacity: 0.8,
-      color: strokeColor, weight: 2, opacity: 1,
-    });
-
-    // Build visit rows for popup
-    const visitRows = filteredVisits.map(v => {
-      const mc = MGR_COLORS[v.m] || '#94a3b8';
-      const hasR = !!v.r;
-      return `<div style="padding:7px 0;border-bottom:1px solid #f0f1f4;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${mc};flex-shrink:0"></span>
-          <b style="font-size:12px;color:#1a1d26;">${v.c || '—'}</b>
-        </div>
-        <div style="display:flex;gap:8px;align-items:flex-start;">
-          <span style="font-size:10px;color:#9aa0b0;white-space:nowrap;">${v.m.split(' ')[0]}${v.d ? ' · '+v.d : ''}</span>
-        </div>
-        ${hasR ? `<div style="margin-top:4px;font-size:11px;color:#374151;line-height:1.4;">${v.r}</div>`
-                : `<div style="margin-top:3px;font-size:10px;color:#9aa0b0;font-style:italic;">Результат не вказано</div>`}
-      </div>`;
-    }).join('');
-
-    const mgrTags = activeMgrs.map(m =>
-      `<span style="display:inline-block;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600;background:${MGR_COLORS[m]||'#94a3b8'}22;color:${MGR_COLORS[m]||'#94a3b8'};border:1px solid ${MGR_COLORS[m]||'#94a3b8'}55;">${m}</span>`
-    ).join('');
-
-    const popupContent = `
-      <div style="font-family:'JetBrains Mono',monospace;min-width:280px;max-width:360px;">
-        <div style="font-size:16px;font-weight:700;color:#1a1d26;margin-bottom:4px;">${city.name}</div>
-        <div style="display:flex;gap:12px;margin-bottom:8px;">
-          <span style="font-size:11px;color:#5a6070;">Візитів: <b style="color:#1a1d26">${filteredTotal}</b></span>
-          <span style="font-size:11px;color:#16a34a;">✓ ${filteredResults} (${rate}%)</span>
-          <span style="font-size:11px;color:#e11d48;">✗ ${filteredTotal-filteredResults}</span>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;">${mgrTags}</div>
-        <div style="max-height:320px;overflow-y:auto;padding-right:4px;">
-          ${visitRows}
-        </div>
-      </div>`;
-
-    circle.bindPopup(popupContent, {maxWidth: 400, maxHeight: 500});
-
-    // Hover effect
-    circle.on('mouseover', function(){ this.setStyle({fillOpacity:1, weight:3}); });
-    circle.on('mouseout', function(){ this.setStyle({fillOpacity:0.8, weight:2}); });
-
-    circle.addTo(leafletMap);
-    mapMarkers.push(circle);
-  });
-}
-
-
-
-
-
-
-window.addEventListener('load', function(){
-monthlyChart=new Chart(document.getElementById('monthlyChart'),{type:'bar',data:{labels:Object.values(MONTH_LABELS),datasets:[]},options:{responsive:true,plugins:{legend:{labels:{...TC,boxWidth:10,padding:8}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toFixed(2)} млн`}}},scales:{x:{stacked:true,ticks:TC,grid:GC},y:{stacked:true,ticks:{...TC,callback:v=>v+' млн'},grid:GC}}}});
-collChart=new Chart(document.getElementById('collChart'),{type:'bar',data:{labels:[],datasets:[{data:[],backgroundColor:[],borderColor:[],borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` Збір: ${c.raw.toFixed(1)}%`}}},scales:{x:{max:110,ticks:{...TC,callback:v=>v+'%'},grid:GC},y:{ticks:TC,grid:GC}}}});
-svpChart=new Chart(document.getElementById('svpChart'),{type:'bar',data:{labels:[],datasets:[{label:'Відвантажено',data:[],backgroundColor:'#f0b42988',borderColor:'#f0b429',borderWidth:1,borderRadius:3},{label:'Оплачено',data:[],backgroundColor:'#22c55e66',borderColor:'#22c55e',borderWidth:1,borderRadius:3}]},options:{responsive:true,plugins:{legend:{labels:{...TC,boxWidth:10}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toFixed(2)} млн`}}},scales:{x:{ticks:TC,grid:GC},y:{ticks:{...TC,callback:v=>v+' млн'},grid:GC}}}});
-
-
-
-
-
-
-
-
-
-
-// ═══════════════════════════════════
-// RATING BUILDER
-// ═══════════════════════════════════
-
-
-
-
-
-// ═══════════════════════════════════
-// RATING TABLE RENDER
-// ═══════════════════════════════════
-
-
-
-// ═══════════════════════════════════
-// MAIN APPLY
-// ═══════════════════════════════════
-
-applyFilters();
-
-// ═══════════════════════════════════
-// TRIPS DATA & LOGIC
-// ═══════════════════════════════════
-
-
-
-// Charts
-});
-) * 28))
       : 14;
 
     let color, strokeColor;
